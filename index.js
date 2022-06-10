@@ -44,6 +44,8 @@ app.use(
 	})
 );
 
+console.log(process.env.MODE);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
