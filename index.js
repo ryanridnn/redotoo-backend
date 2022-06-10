@@ -10,6 +10,8 @@ import groupRouter from "./routers/groupRouter.js";
 import authRouter from "./routers/authRouter.js";
 import todoRouter from "./routers/todoRouter.js";
 import User from "./models/userModel.js";
+import Todo from "./models/todoModel.js";
+import Group from "./models/groupModel.js";
 
 const MONGO_URL = process.env.MONGO_URL;
 const PORT = process.env.PORT || 3001;
@@ -64,6 +66,25 @@ passport.use(
 						gId: profile.id,
 						name: profile.displayName,
 					});
+					await Todo.create({
+						text: "Finishing Web dev course ",
+						user: newUser._id,
+					});
+					const group = await Group.create({
+						text: "MERN project todo",
+						user: newUser._id,
+					});
+					await Todo.create({
+						text: "Add authentication with JWT",
+						belongTo: group._id,
+						user: newUser._id,
+					});
+					await Todo.create({
+						text: "Finishing the UI",
+						belongTo: group._id,
+						user: newUser._id,
+					});
+
 					return cb(null, newUser);
 				}
 			} catch (e) {
