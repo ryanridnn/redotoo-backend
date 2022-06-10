@@ -4,6 +4,7 @@ dotenv.config();
 const CLIENT_URL = process.env.CLIENT_URL;
 
 export const checkIsAuthenticated = (req, res, next) => {
+	console.log(req.user);
 	if (req.isAuthenticated()) {
 		next();
 	} else {
