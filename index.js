@@ -23,6 +23,7 @@ const app = express();
 app.use(
 	cors({
 		origin: CLIENT_URL,
+		methods: [],
 		credentials: true,
 	})
 );
@@ -36,10 +37,16 @@ app.use(
 	session({
 		secret: COOKIE_SECRET,
 		resave: false,
-		saveUninitialized: true,
+		saveUninitialized: false,
 		store: MongoStore.create({
 			mongoUrl: MONGO_URL,
 		}),
+		unset: "destroy",
+		cookie: {
+			sameSite: "Lax",
+			maxAge: 60000,
+			secure: process.env.MODE === "production" ? true : false,
+		},
 	})
 );
 
