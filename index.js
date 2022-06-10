@@ -20,10 +20,6 @@ const COOKIE_SECRET = process.env.COOKIE_SECRET;
 const CLIENT_URL = process.env.CLIENT_URL;
 
 const app = express();
-app.use((req, res, next) => {
-	res.header("Access-Control-Allow-Origin", "*");
-	next();
-});
 app.use(
 	cors({
 		origin: CLIENT_URL,
@@ -57,6 +53,11 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use((req, res, next) => {
+	res.header("Access-Control-Allow-Origin", "*");
+	next();
+});
 
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { checkIsAuthenticated } from "./middlewares.js";
