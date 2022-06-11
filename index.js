@@ -127,8 +127,12 @@ app.use("/group", checkIsAuthenticated, groupRouter);
 app.use("/todo", checkIsAuthenticated, todoRouter);
 app.use("/auth", authRouter);
 
-app.get("*", (req, res) => {
+app.get("/", (req, res) => {
 	res.sendFile(path.resolve("./views/index.html"));
+});
+
+app.get("*", (req, res) => {
+	res.redirect("/");
 });
 
 mongoose
