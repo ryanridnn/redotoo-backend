@@ -6,6 +6,7 @@ import passport from "passport";
 import cors from "cors";
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
+import path from "path";
 
 import groupRouter from "./routers/groupRouter.js";
 import authRouter from "./routers/authRouter.js";
@@ -120,9 +121,15 @@ passport.deserializeUser(async (id, done) => {
 	}
 });
 
+app.use("/", express.static("views"));
+
 app.use("/group", checkIsAuthenticated, groupRouter);
 app.use("/todo", checkIsAuthenticated, todoRouter);
 app.use("/auth", authRouter);
+
+app.get("*", (req, res) => {
+	res.sendFile(path.resolve("./views/index.html"));
+});
 
 mongoose
 	.connect(MONGO_URL, {
