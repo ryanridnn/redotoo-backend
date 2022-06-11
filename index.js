@@ -22,14 +22,6 @@ const CLIENT_URL = process.env.CLIENT_URL;
 
 const app = express();
 
-app.use(
-	cors({
-		allowOrigin: CLIENT_URL,
-		origin: CLIENT_URL,
-		credentials: true,
-	})
-);
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
