@@ -20,16 +20,16 @@ const COOKIE_SECRET = process.env.COOKIE_SECRET;
 const CLIENT_URL = process.env.CLIENT_URL;
 
 const app = express();
+
 app.use(
 	cors({
+		allowedHeaders: "*",
+		allowMethods: "*",
+		allowOrigin: "*",
 		origin: CLIENT_URL,
-		methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 		credentials: true,
-		optionSuccessStatus: true,
 	})
 );
-
-app.set("trust proxy", 1);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -43,21 +43,11 @@ app.use(
 			mongoUrl: MONGO_URL,
 		}),
 		unset: "destroy",
-		cookie: {
-			sameSite: "Lax",
-			maxAge: 60000,
-			secure: process.env.MODE === "production" ? true : false,
-		},
 	})
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use((req, res, next) => {
-	res.header("Access-Control-Allow-Origin", "*");
-	next();
-});
 
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { checkIsAuthenticated } from "./middlewares.js";
